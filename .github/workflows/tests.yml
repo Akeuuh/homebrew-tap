@@ -20,6 +20,9 @@ jobs:
       - name: Tap this repository
         run: |
           brew tap "$GITHUB_REPOSITORY_OWNER/tap" "$GITHUB_WORKSPACE"
+          # Homebrew refuses to read a third-party tap until it is trusted.
+          # `brew trust` is recent, so an older runner must not fail here.
+          brew trust "$GITHUB_REPOSITORY_OWNER/tap" || true
 
       - name: brew style
         run: brew style "$GITHUB_REPOSITORY_OWNER/tap"
