@@ -1,0 +1,28 @@
+name: brew test-bot
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+
+      - name: Tap this repository
+        run: |
+          brew tap "$GITHUB_REPOSITORY_OWNER/tap" "$GITHUB_WORKSPACE"
+
+      - name: brew style
+        run: brew style "$GITHUB_REPOSITORY_OWNER/tap"
+
+      - name: brew audit
+        run: brew audit --cask --online --strict "$GITHUB_REPOSITORY_OWNER/tap/mdnotch"
