@@ -12,20 +12,20 @@ jobs:
   test:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
-
       - name: Set up Homebrew
+        id: set-up-homebrew
         uses: Homebrew/actions/setup-homebrew@master
+        with:
+          test-bot: true
 
-      - name: Tap this repository
-        run: |
-          brew tap "$GITHUB_REPOSITORY_OWNER/tap" "$GITHUB_WORKSPACE"
-          # Homebrew refuses to read a third-party tap until it is trusted.
-          # `brew trust` is recent, so an older runner must not fail here.
-          brew trust "$GITHUB_REPOSITORY_OWNER/tap" || true
+      # setup-homebrew already taps this repository, so it only needs to be
+      # trusted: Homebrew refuses to read a third-party tap otherwise.
+      # `brew trust` is recent, so an older runner must not fail here.
+      - name: Trust the tap
+        run: brew trust "$GITHUB_REPOSITORY_OWNER/tap" || true
 
-      - name: brew style
-        run: brew style "$GITHUB_REPOSITORY_OWNER/tap"
+      - name: Check the tap syntax
+        run: brew test-bot --only-tap-syntax
 
-      - name: brew audit
+      - name: Audit the cask against its live download
         run: brew audit --cask --online --strict "$GITHUB_REPOSITORY_OWNER/tap/mdnotch"
