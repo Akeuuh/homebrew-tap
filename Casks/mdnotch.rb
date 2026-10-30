@@ -1,6 +1,6 @@
 cask "mdnotch" do
-  version "0.2.1"
-  sha256 "b31ffc6d26f78731f10b09fac8e4e93f693d0090b434e3cb15638d8f71c5e1a9"
+  version "0.4.0"
+  sha256 "3985d101fb0f399caa631e2295cda55be0a57e4c0247804a59f99f5efcfb5f2c"
 
   url "https://github.com/Akeuuh/mdNotch/releases/download/v#{version}/mdNotch.dmg"
   name "mdNotch"
