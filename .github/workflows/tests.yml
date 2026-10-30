@@ -27,5 +27,7 @@ jobs:
       - name: Check the tap syntax
         run: brew test-bot --only-tap-syntax
 
-      - name: Audit the cask against its live download
-        run: brew audit --cask --online --strict "$GITHUB_REPOSITORY_OWNER/tap/mdnotch"
+      - name: Audit the casks against their live downloads
+        run: |
+          brew audit --cask --online --strict "$GITHUB_REPOSITORY_OWNER/tap/mdnotch"
+          brew audit --cask --online --strict "$GITHUB_REPOSITORY_OWNER/tap/mac-widgets"
